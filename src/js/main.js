@@ -12,21 +12,26 @@ var HttpClient = function() {
 };
 
 let client = new HttpClient();
+let idChannel = "UCVswRUcKC-M35RzgPRv8qUg";
+let part = "statistics,brandingSettings";
+
+let nameChannel = document.querySelector("#name-channel");
+let descrChannel = document.querySelector("#description-channel");
+let imageChannel = document.querySelector("#image-channel");
+let count = document.querySelector("#count");
 
 let showStat = () => {
-  client.get("https://www.googleapis.com/youtube/v3/channels?part=statistics&id=UCVswRUcKC-M35RzgPRv8qUg&key=AIzaSyB7pT0HMSiGxTzmU8gI5kR3XRTAbqt55k0",(response) => {
-    console.log(JSON.parse(response).items[0].statistics
-    .subscriberCount);
-  });
-};
-let showDescr = () => {
-  client.get("https://www.googleapis.com/youtube/v3/channels?part=snippet&id=UCVswRUcKC-M35RzgPRv8qUg&key=AIzaSyB7pT0HMSiGxTzmU8gI5kR3XRTAbqt55k0",(response) => {
-    console.log(JSON.parse(response).items[0].snippet.description);
+  client.get(`https://www.googleapis.com/youtube/v3/channels?part=${part}&id=${idChannel}&key=AIzaSyB7pT0HMSiGxTzmU8gI5kR3XRTAbqt55k0`,(response) => {
+    let info = JSON.parse(response).items[0];
+    nameChannel.textContent = info.brandingSettings.channel.title;
+    descrChannel.textContent = info.brandingSettings.channel.description;
+    imageChannel.src = info.brandingSettings.image.bannerImageUrl;
+    count.textContent = info.statistics.subscriberCount;
   });
 };
 
 showStat();
-showDescr();
+
 
 // let xhr = new XMLHttpRequest();
 
