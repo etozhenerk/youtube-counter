@@ -27,7 +27,11 @@ var showStat = function showStat(id) {
   client.get("https://www.googleapis.com/youtube/v3/channels?part=" + part + "&id=" + id + "&key=AIzaSyB7pT0HMSiGxTzmU8gI5kR3XRTAbqt55k0", function (response) {
     var info = JSON.parse(response).items[0];
     titleChannel.innerText = info.brandingSettings.channel.title;
-    descrChannel.innerText = info.brandingSettings.channel.description;
+    if (info.brandingSettings.channel.description !== undefined) {
+      descrChannel.innerText = info.brandingSettings.channel.description;
+    } else {
+      descrChannel.innerText = "У канала нет описания.";
+    }
     imageChannel.src = info.brandingSettings.image.bannerImageUrl;
     count.innerText = info.statistics.subscriberCount.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
   });

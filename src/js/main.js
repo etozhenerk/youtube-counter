@@ -28,7 +28,11 @@ let showStat = (id) => {
     response => {
       let info = JSON.parse(response).items[0];
       titleChannel.innerText = info.brandingSettings.channel.title;
-      descrChannel.innerText = info.brandingSettings.channel.description;
+      if(info.brandingSettings.channel.description !== undefined){
+        descrChannel.innerText = info.brandingSettings.channel.description;
+      }else{
+        descrChannel.innerText = "У канала нет описания.";
+      }
       imageChannel.src = info.brandingSettings.image.bannerImageUrl;
       count.innerText = info.statistics.subscriberCount.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
     }
