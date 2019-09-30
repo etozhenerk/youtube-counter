@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 
 <head>
   <!-- Required meta tags -->
@@ -27,11 +27,20 @@
           <div class="card">
             <img id="image-channel" src="..." class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title" id="name-channel">Название канала</h5>
+              <h5 class="card-title" id="title-channel">Название канала</h5>
               <p class="card-text" id="description-channel">Развернутое описание канала</p>
               <a href="#" class="btn btn-primary"><span id="count">0</span> подписчиков</a>
             </div>
           </div>
+        </div>
+        <div class="col-4">
+          <form class="form-inline" id="form" action="#">
+            <div class="form-group mx-sm-3 mb-2">
+              <label for="name-channel" class="sr-only">Название канала</label>
+              <input type="text" autocomplete="off"  class="form-control" id="name-channel" placeholder="Название канала">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Поиск</button>
+          </form>
         </div>
       </div>
     </div>

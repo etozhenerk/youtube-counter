@@ -16,36 +16,35 @@ var client = new HttpClient();
 var idChannel = "UCVswRUcKC-M35RzgPRv8qUg";
 var part = "statistics,brandingSettings";
 
-var nameChannel = document.querySelector("#name-channel");
+var titleChannel = document.querySelector("#title-channel");
 var descrChannel = document.querySelector("#description-channel");
 var imageChannel = document.querySelector("#image-channel");
 var count = document.querySelector("#count");
 
-var showStat = function showStat() {
-  client.get("https://www.googleapis.com/youtube/v3/channels?part=" + part + "&id=" + idChannel + "&key=AIzaSyB7pT0HMSiGxTzmU8gI5kR3XRTAbqt55k0", function (response) {
+var form = document.querySelector("#form");
+
+var showStat = function showStat(id) {
+  client.get("https://www.googleapis.com/youtube/v3/channels?part=" + part + "&id=" + id + "&key=AIzaSyB7pT0HMSiGxTzmU8gI5kR3XRTAbqt55k0", function (response) {
     var info = JSON.parse(response).items[0];
-    nameChannel.textContent = info.brandingSettings.channel.title;
-    descrChannel.textContent = info.brandingSettings.channel.description;
+    titleChannel.innerText = info.brandingSettings.channel.title;
+    descrChannel.innerText = info.brandingSettings.channel.description;
     imageChannel.src = info.brandingSettings.image.bannerImageUrl;
-    count.textContent = info.statistics.subscriberCount;
+    count.innerText = info.statistics.subscriberCount;
   });
 };
 
-showStat();
+var searchChannel = function searchChannel(nameChannel) {
+  client.get("https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&maxResults=1&q=" + nameChannel + "&key=AIzaSyB7pT0HMSiGxTzmU8gI5kR3XRTAbqt55k0", function (response) {
+    var info = JSON.parse(response).items[0].snippet.channelId;
+    showStat(info);
+  });
+};
 
-// let xhr = new XMLHttpRequest();
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-// xhr.open(
-//   "GET",
-//   "https://www.googleapis.com/youtube/v3/channels?part=statistics&id=UCVswRUcKC-M35RzgPRv8qUg&key=AIzaSyB7pT0HMSiGxTzmU8gI5kR3XRTAbqt55k0",
-//   false
-// );
-// xhr.send();
+  var nameChannel = document.querySelector("#name-channel").value;
+  searchChannel(nameChannel);
+});
 
-// if (xhr.status != 200) {
-//   console.log(xhr.status + ":" + xhr.statusText);
-// } else {
-//   let subsCount = JSON.parse(xhr.responseText).items[0].statistics
-//     .subscriberCount;
-//   document.querySelector("#count").textContent = subsCount;
-// }
+showStat(idChannel);

@@ -15,37 +15,38 @@ let client = new HttpClient();
 let idChannel = "UCVswRUcKC-M35RzgPRv8qUg";
 let part = "statistics,brandingSettings";
 
-let nameChannel = document.querySelector("#name-channel");
+let titleChannel = document.querySelector("#title-channel");
 let descrChannel = document.querySelector("#description-channel");
 let imageChannel = document.querySelector("#image-channel");
 let count = document.querySelector("#count");
 
-let showStat = () => {
-  client.get(`https://www.googleapis.com/youtube/v3/channels?part=${part}&id=${idChannel}&key=AIzaSyB7pT0HMSiGxTzmU8gI5kR3XRTAbqt55k0`,(response) => {
-    let info = JSON.parse(response).items[0];
-    nameChannel.textContent = info.brandingSettings.channel.title;
-    descrChannel.textContent = info.brandingSettings.channel.description;
-    imageChannel.src = info.brandingSettings.image.bannerImageUrl;
-    count.textContent = info.statistics.subscriberCount;
+let form = document.querySelector("#form");
+
+let showStat = (id) => {
+  client.get(
+    `https://www.googleapis.com/youtube/v3/channels?part=${part}&id=${id}&key=AIzaSyB7pT0HMSiGxTzmU8gI5kR3XRTAbqt55k0`,
+    response => {
+      let info = JSON.parse(response).items[0];
+      titleChannel.innerText = info.brandingSettings.channel.title;
+      descrChannel.innerText = info.brandingSettings.channel.description;
+      imageChannel.src = info.brandingSettings.image.bannerImageUrl;
+      count.innerText = info.statistics.subscriberCount;
+    }
+  );
+};
+
+let searchChannel = (nameChannel) => {
+  client.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&maxResults=1&q=${nameChannel}&key=AIzaSyB7pT0HMSiGxTzmU8gI5kR3XRTAbqt55k0`, (response) =>{
+    let info = JSON.parse(response).items[0].snippet.channelId;
+    showStat(info);
   });
 };
 
-showStat();
+form.addEventListener("submit", e => {
+  e.preventDefault();
 
+  let nameChannel = document.querySelector("#name-channel").value;
+  searchChannel(nameChannel);
+});
 
-// let xhr = new XMLHttpRequest();
-
-// xhr.open(
-//   "GET",
-//   "https://www.googleapis.com/youtube/v3/channels?part=statistics&id=UCVswRUcKC-M35RzgPRv8qUg&key=AIzaSyB7pT0HMSiGxTzmU8gI5kR3XRTAbqt55k0",
-//   false
-// );
-// xhr.send();
-
-// if (xhr.status != 200) {
-//   console.log(xhr.status + ":" + xhr.statusText);
-// } else {
-//   let subsCount = JSON.parse(xhr.responseText).items[0].statistics
-//     .subscriberCount;
-//   document.querySelector("#count").textContent = subsCount;
-// }
+showStat(idChannel);
