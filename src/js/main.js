@@ -12,7 +12,7 @@ var HttpClient = function() {
 };
 
 let client = new HttpClient();
-let idChannel = "UCVswRUcKC-M35RzgPRv8qUg";
+let idChannel = "UCzlzGhKI5Y1LIeDJI53cWjQ";
 let part = "statistics,brandingSettings";
 
 let titleChannel = document.querySelector("#title-channel");
@@ -30,7 +30,7 @@ let showStat = (id) => {
       titleChannel.innerText = info.brandingSettings.channel.title;
       descrChannel.innerText = info.brandingSettings.channel.description;
       imageChannel.src = info.brandingSettings.image.bannerImageUrl;
-      count.innerText = info.statistics.subscriberCount;
+      count.innerText = info.statistics.subscriberCount.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
     }
   );
 };

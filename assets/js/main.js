@@ -13,7 +13,7 @@ var HttpClient = function HttpClient() {
 };
 
 var client = new HttpClient();
-var idChannel = "UCVswRUcKC-M35RzgPRv8qUg";
+var idChannel = "UCzlzGhKI5Y1LIeDJI53cWjQ";
 var part = "statistics,brandingSettings";
 
 var titleChannel = document.querySelector("#title-channel");
@@ -29,7 +29,7 @@ var showStat = function showStat(id) {
     titleChannel.innerText = info.brandingSettings.channel.title;
     descrChannel.innerText = info.brandingSettings.channel.description;
     imageChannel.src = info.brandingSettings.image.bannerImageUrl;
-    count.innerText = info.statistics.subscriberCount;
+    count.innerText = info.statistics.subscriberCount.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
   });
 };
 
